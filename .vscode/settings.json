@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5434,
+            "driver": "PostgreSQL",
+            "database": "Blog",
+            "username": "admin_blog",
+            "name": "banco_blog"
+        }
+    ]
+}
