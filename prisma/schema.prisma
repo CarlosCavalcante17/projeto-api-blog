@@ -20,6 +20,8 @@ model Usuario {
   email String @unique
   posts Post[]
   comentarios Comentario[] @relation("Usuariocomentarios")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("usuarios")
 }
@@ -32,6 +34,8 @@ model Post {
   autor Usuario @relation(fields: [autorId], references: [id])
   autorId Int
   comentarios Comentario[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("posts")
 }
@@ -43,6 +47,8 @@ model Comentario {
   autorId Int
   post Post @relation(fields: [postId], references: [id])
   postId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("comentarios")
 }

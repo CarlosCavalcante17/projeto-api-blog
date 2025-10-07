@@ -1,28 +1,27 @@
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import { prisma } from '../database/prisma';
 
 type PostCreateData = { title: string; content: string; published?: boolean; autorId: number; };
 type PostUpdateData = { title?: string; content?: string; published?: boolean; };
 
 export const getAllPosts = async () => {
-  return prisma.postagem.findMany({ include: { autor: true } });
+  return prisma.post.findMany({ include: { autor: true } });
 };
 
 export const getPostById = async (id: number) => {
-  return prisma.postagem.findUnique({
+  return prisma.post.findUnique({
     where: { id },
     include: { autor: true, comentarios: true },
   });
 };
 
 export const createPost = async (data: PostCreateData) => {
-  return prisma.postagem.create({ data });
+  return prisma.post.create({ data });
 };
 
 export const updatePost = async (id: number, data: PostUpdateData) => {
-  return prisma.postagem.update({ where: { id }, data });
+  return prisma.post.update({ where: { id }, data });
 };
 
 export const deletePost = async (id: number) => {
-  return prisma.postagem.delete({ where: { id } });
+  return prisma.post.delete({ where: { id } });
 };

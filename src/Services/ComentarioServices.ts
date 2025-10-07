@@ -1,22 +1,22 @@
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import { prisma } from '../database/prisma';
+ 
 
 type ComentarioCreateData = { text: string; autorId: number; postagemId: number; };
 type ComentarioUpdateData = { text?: string; };
 
 export const getAllComentarios = async () => {
-  return prisma.comentario.findMany({ include: { autor: true, postagem: true } });
+  return prisma.comentario.findMany({ include: { autor: true, post: true } });
 };
 
 export const getComentarioById = async (id: number) => {
   return prisma.comentario.findUnique({
     where: { id },
-    include: { autor: true, postagem: true },
+    include: { autor: true, post: true },
   });
 };
 
 export const createComentario = async (data: ComentarioCreateData) => {
-  return prisma.comentario.create({ data });
+  return prisma.comentario.createComentario({ data });
 };
 
 export const updateComentario = async (id: number, data: ComentarioUpdateData) => {
