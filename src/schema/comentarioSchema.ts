@@ -11,6 +11,6 @@ export const createComentariosSchema = z.object({
     .int().positive(),
 })
 
-export const updateCommentSchema = z.object({
+export const updateComentarioSchema = z.object({
   text: z.string().min(1, "O comentário não pode estar vazio.").optional(),
 });
