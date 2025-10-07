@@ -1,28 +1,58 @@
-import { prisma } from '../database/prisma';
- 
+import prisma from "../lib/prisma";
+import { Comentario } from "@prisma/client";
 
-type ComentarioCreateData = { text: string; autorId: number; postagemId: number; };
-type ComentarioUpdateData = { text?: string; };
+type comentarioCreateData = Omit<Comentario, 'id'>;
+type comentarioUpdateData = Partial<Omit<Comentario, 'id' | 'autorId' | 'postagemId'>>;
 
-export const getAllComentarios = async () => {
-  return prisma.comentario.findMany({ include: { autor: true, post: true } });
+export const create = async (data: comentarioCreateData): Promise<Comentario> => {
+    // Validação das chaves estrangeiras: autor e postagem existem?
+    const autor = await prisma.usuario.findUnique({ where: { id: data.autorId } });
+    if (!autor) {
+        throw new Error('Autor não encontrado');
+    }
+
+    const postagem = await prisma.postagem.findUnique({ where: { id: data.postagemId } });
+    if (!postagem) {
+        throw new Error('Postagem não encontrada');
+    }
+
+    return prisma.comentario.create({ data });
 };
 
-export const getComentarioById = async (id: number) => {
-  return prisma.comentario.findUnique({
-    where: { id },
-    include: { autor: true, post: true },
-  });
+export const getAll = async () => {
+    return prisma.comentario.findMany({
+        include: {
+            autor: { select: { nome: true } },
+            postagem: { select: { title: true } }
+        }
+    });
 };
 
-export const createComentario = async (data: ComentarioCreateData) => {
-  return prisma.comentario.createComentario({ data });
+export const getById = async (id: number) => {
+    return prisma.comentario.findUnique({
+        where: { id },
+        include: {
+            autor: true,
+            postagem: true
+        },
+    });
 };
 
-export const updateComentario = async (id: number, data: ComentarioUpdateData) => {
-  return prisma.comentario.update({ where: { id }, data });
+export const update = async (id: number, data: comentarioUpdateData): Promise<Comentario> => {
+    const comentario = await prisma.comentario.findUnique({ where: { id } });
+    if (!comentario) {
+        throw new Error('Comentário não encontrado');
+    }
+    return prisma.comentario.update({
+        where: { id },
+        data,
+    });
 };
 
-export const deleteComentario = async (id: number) => {
-  return prisma.comentario.delete({ where: { id } });
+export const remove = async (id: number): Promise<Comentario> => {
+    const comentario = await prisma.comentario.findUnique({ where: { id } });
+    if (!comentario) {
+        throw new Error('Comentário não encontrado');
+    }
+    return prisma.comentario.delete({ where: { id } });
 };

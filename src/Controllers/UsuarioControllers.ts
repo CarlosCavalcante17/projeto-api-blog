@@ -1,63 +1,70 @@
-import { Request, Response } from 'express';
-import { z } from 'zod';
-import * as usuarioService from '../Services/UsuarioServices';
-import { createUsuarioSchema, updateUsuarioSchema } from '../schema/usuarioSchema';
+import { Request, Response } from "express";
+import { z } from "zod";
+import * as UsuarioService from '../Services/UsuarioServices';
+import { createusuarioSchema, updateusuarioSchema } from "../schema/usuarioSchema";
 
-export const getAllUsuarios = async (req: Request, res: Response) => {
-  try {
-    const usuarios = await usuarioService.getAllUsuarios();
-    res.status(200).json(usuarios);
-  } catch (error) {
-    res.status(500).json({ message: 'Erro ao buscar usuários.' });
-  }
-};
-
-export const getUsuarioById = async (req: Request, res: Response) => {
-  try {
-    const id = parseInt(req.params.id, 10);
-    const usuario = await usuarioService.getUsuarioById(id);
-    if (!usuario) {
-      return res.status(404).json({ message: 'Usuário não encontrado.' });
+export const createusuario = async (req: Request, res: Response) => {
+    try {
+        const data = createusuarioSchema.parse(req.body);
+        const novoUsuario = await UsuarioService.create(data);
+        res.status(201).json(novoUsuario);
+    } catch (error: any) {
+        if (error instanceof z.ZodError) {
+            return res.status(400).json({ error: 'Dados inválidos', details: error.issues });
+        }
+        if (error.message.includes('e-mail já está em uso')) {
+            return res.status(409).json({ error: error.message }); // 409 Conflict
+        }
+        res.status(500).json({ error: 'Falha ao criar usuário' });
     }
-    res.status(200).json(usuario);
-  } catch (error) {
-    res.status(500).json({ message: 'Erro ao buscar usuário.' });
-  }
 };
 
-export const createUsuario = async (req: Request, res: Response) => {
-  try {
-    const validatedData = createUsuarioSchema.parse(req.body);
-    const newUsuario = await usuarioService.createUsuario(validatedData);
-    res.status(201).json(newUsuario);
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return res.status(400).json({ message: 'Dados inválidos', errors: error.issues });
+export const getAllusuarios = async (req: Request, res: Response) => {
+    try {
+        const usuarios = await UsuarioService.getAll();
+        res.status(200).json(usuarios);
+    } catch (error) {
+        res.status(500).json({ error: 'Falha ao buscar usuários' });
     }
-    res.status(500).json({ message: 'Erro ao criar usuário.' });
-  }
 };
 
-export const updateUsuario = async (req: Request, res: Response) => {
-  try {
-    const id = parseInt(req.params.id, 10);
-    const validatedData = updateUsuarioSchema.parse(req.body);
-    const updatedUsuario = await usuarioService.updateUsuario(id, validatedData);
-    res.status(200).json(updatedUsuario);
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return res.status(400).json({ message: 'Dados inválidos', errors: error.issues });
+export const getusuarioById = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(req.params.id);
+        const usuario = await UsuarioService.getById(id);
+        if (!usuario) return res.status(404).json({ error: 'Usuário não encontrado' });
+        res.status(200).json(usuario);
+    } catch (error) {
+        res.status(500).json({ error: 'Falha ao buscar usuário' });
     }
-    res.status(500).json({ message: 'Erro ao atualizar usuário.' });
-  }
 };
 
-export const deleteUsuario = async (req: Request, res: Response) => {
-  try {
-    const id = parseInt(req.params.id, 10);
-    await usuarioService.deleteUsuario(id);
-    res.status(204).send();
-  } catch (error) {
-    res.status(500).json({ message: 'Erro ao deletar usuário.' });
-  }
+export const updateusuario = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(req.params.id);
+        const data = updateusuarioSchema.parse(req.body);
+        const usuarioAtualizado = await UsuarioService.update(id, data);
+        res.status(200).json(usuarioAtualizado);
+    } catch (error: any) {
+        if (error instanceof z.ZodError) {
+            return res.status(400).json({ error: 'Dados inválidos', details: error.issues });
+        }
+        if (error.message.includes('não encontrado')) {
+            return res.status(404).json({ error: error.message });
+        }
+        res.status(500).json({ error: 'Falha ao atualizar usuário' });
+    }
+};
+
+export const deleteusuario = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(req.params.id);
+        await UsuarioService.remove(id);
+        res.status(204).send();
+    } catch (error: any) {
+        if (error.message.includes('não encontrado')) {
+            return res.status(404).json({ error: error.message });
+        }
+        res.status(500).json({ error: 'Falha ao deletar usuário' });
+    }
 };
