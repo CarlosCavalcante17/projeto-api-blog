@@ -1,20 +1,20 @@
 import {prisma} from "../database/prisma";
-import { Post } from "../generated/prisma";
+import { posts } from "../generated/prisma";
 
-type PostCreateData = Omit<Post, 'id'>;
-type PostUpdateData = Partial<Omit<Post, 'id' | 'autorId'>>;
+type postsCreateData = Omit<posts, 'id'>;
+type postsupdateData = Partial<Omit<posts, 'id' | 'autorId'>>;
 
-export const create = async (data: PostCreateData): Promise<Post> => {
+export const create = async (data: postsCreateData): Promise<posts> => {
     
-    const autor = await prisma.usuario.findUnique({ where: { id: data.autorId } });
+    const autor = await prisma.users.findUnique({ where: { id: data.autorId } });
     if (!autor) {
         throw new Error('Autor não encontrado');
     }
-    return prisma.post.create({ data });
+    return prisma.posts.create({ data });
 };
 
 export const getAll = async () => {
-    return prisma.post.findMany({
+    return prisma.posts.findMany({
         orderBy: { id: 'desc' }, 
         include: {
             autor: {
@@ -28,7 +28,7 @@ export const getAll = async () => {
 };
 
 export const getById = async (id: number) => {
-    return prisma.post.findUnique({
+    return prisma.posts.findUnique({
         where: { id },
         include: {
             autor: true,
@@ -37,21 +37,21 @@ export const getById = async (id: number) => {
     });
 };
 
-export const update = async (id: number, data: PostUpdateData): Promise<Post> => {
-    const postagem = await prisma.post.findUnique({ where: { id } });
+export const update = async (id: number, data: postsupdateData): Promise<posts> => {
+    const postagem = await prisma.posts.findUnique({ where: { id } });
     if (!postagem) {
         throw new Error('Postagem não encontrada');
     }
-    return prisma.post.update({
+    return prisma.posts.update({
         where: { id },
         data,
     });
 };
 
-export const remove = async (id: number): Promise<Post> => {
-    const postagem = await prisma.post.findUnique({ where: { id } });
+export const remove = async (id: number): Promise<posts> => {
+    const postagem = await prisma.posts.findUnique({ where: { id } });
     if (!postagem) {
         throw new Error('Postagem não encontrada');
     }
-    return prisma.post.delete({ where: { id } });
+    return prisma.posts.delete({ where: { id } });
 };

@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { z } from "zod";
 import * as ComentarioService from '../Services/ComentarioServices';
-import { createComentariosSchema, updateComentarioSchema } from "../schema/comentarioSchema";
+import { createcommentsSchema, updatecommentsSchema } from "../schema/comentarioSchema";
 
-export const createcomentario = async (req: Request, res: Response) => {
+export const createcomments = async (req: Request, res: Response) => {
     try {
-        const data = createComentariosSchema.parse(req.body);
+        const data = createcommentsSchema.parse(req.body);
         const novoComentario = await ComentarioService.create({
             ...data,
             updatedAt: new Date()
@@ -22,7 +22,7 @@ export const createcomentario = async (req: Request, res: Response) => {
     }
 };
 
-export const getAllcomentarios = async (req: Request, res: Response) => {
+export const getAllcomments = async (req: Request, res: Response) => {
     try {
         const comentarios = await ComentarioService.getAll();
         res.status(200).json(comentarios);
@@ -31,7 +31,7 @@ export const getAllcomentarios = async (req: Request, res: Response) => {
     }
 };
 
-export const getcomentarioById = async (req: Request, res: Response) => {
+export const getcommentsById = async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id);
         const comentario = await ComentarioService.getById(id);
@@ -42,10 +42,10 @@ export const getcomentarioById = async (req: Request, res: Response) => {
     }
 };
 
-export const updatecomentario = async (req: Request, res: Response) => {
+export const updatecomments = async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id);
-        const data = updateComentarioSchema.parse(req.body);
+        const data = updatecommentsSchema.parse(req.body);
         const comentarioAtualizado = await ComentarioService.update(id, data);
         res.status(200).json(comentarioAtualizado);
     } catch (error: any) {
@@ -59,7 +59,7 @@ export const updatecomentario = async (req: Request, res: Response) => {
     }
 };
 
-export const deletecomentario = async (req: Request, res: Response) => {
+export const deletecomments = async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id);
         await ComentarioService.remove(id);

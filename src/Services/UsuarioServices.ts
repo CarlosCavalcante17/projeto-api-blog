@@ -1,19 +1,19 @@
 import {prisma} from "../database/prisma";
-import { Usuario } from "../generated/prisma";
+import { users } from "../generated/prisma";
 
-type usuarioCreateData = Omit<Usuario, 'id'>;
-type usuarioUpdateData = Partial<usuarioCreateData>;
+type usersCreateData = Omit<users, 'id'>;
+type usersUpdateData = Partial<usersCreateData>;
 
-export const create = async (data: usuarioCreateData): Promise<Usuario> => {
-    const emailEmUso = await prisma.usuario.findUnique({ where: { email: data.email } });
+export const create = async (data: usersCreateData): Promise<users> => {
+    const emailEmUso = await prisma.users.findUnique({ where: { email: data.email } });
     if (emailEmUso) {
         throw new Error('Este e-mail já está em uso.');
     }
-    return prisma.usuario.create({ data });
+    return prisma.users.create({ data });
 };
 
 export const getAll = async () => {
-    return prisma.usuario.findMany({
+    return prisma.users.findMany({
         select: {
             id: true,
             name: true,
@@ -23,7 +23,7 @@ export const getAll = async () => {
 };
 
 export const getById = async (id: number) => {
-    return prisma.usuario.findUnique({
+    return prisma.users.findUnique({
         where: { id },
         include: {
             posts: true,
@@ -32,21 +32,21 @@ export const getById = async (id: number) => {
     });
 };
 
-export const update = async (id: number, data: usuarioUpdateData): Promise<Usuario> => {
-    const usuario = await prisma.usuario.findUnique({ where: { id } });
-    if (!usuario) {
+export const update = async (id: number, data: usersUpdateData): Promise<users> => {
+    const users = await prisma.users.findUnique({ where: { id } });
+    if (!users) {
         throw new Error('Usuário não encontrado');
     }
-    return prisma.usuario.update({
+    return prisma.users.update({
         where: { id },
         data,
     });
 };
 
-export const remove = async (id: number): Promise<Usuario> => {
-    const usuario = await prisma.usuario.findUnique({ where: { id } });
-    if (!usuario) {
+export const remove = async (id: number): Promise<users> => {
+    const users = await prisma.users.findUnique({ where: { id } });
+    if (!users) {
         throw new Error('Usuário não encontrado');
     }
-    return prisma.usuario.delete({ where: { id } });
+    return prisma.users.delete({ where: { id } });
 };

@@ -1,19 +1,19 @@
 
 import { Router } from 'express';
 import {
-  getAllcomentarios,
-  getcomentarioById,
-  createcomentario,
-  updatecomentario,
-  deletecomentario,
+  getAllcomments,
+  getcommentsById,
+  createcomments,
+  updatecomments,
+  deletecomments,
 } from '../Controllers/ComentarioControllers';
 
 const router = Router();
 
-router.get('/', getAllcomentarios);
-router.get('/:id', getcomentarioById);
-router.post('/', createcomentario);
-router.put('/:id', updatecomentario);
-router.delete('/:id', deletecomentario);
+router.get('/', getAllcomments);
+router.get('/:id', getcommentsById);
+router.post('/', createcomments);
+router.put('/:id', updatecomments);
+router.delete('/:id', deletecomments);
 
 export default router;

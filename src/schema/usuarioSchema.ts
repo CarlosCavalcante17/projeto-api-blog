@@ -12,7 +12,7 @@ export const createUserSchema = z.object({
     .max(255, "O Email deve conter no máximo 255 caracteres "),
 });
 
-export const updateUsuarioSchema = createUserSchema.partial();
+export const updateUsersSchema = createUserSchema.partial();
 
 
 
