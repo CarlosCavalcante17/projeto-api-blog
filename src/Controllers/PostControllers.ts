@@ -1,12 +1,19 @@
 import { Request, Response } from "express";
-import { z } from "zod";
+import { date, z } from "zod";
 import * as PostagemService from '../Services/PostServices';
 import { createPostSchema, updatePostSchema } from "../schema/postSchema";
 
 export const createPost = async (req: Request, res: Response) => {
     try {
         const data = createPostSchema.parse(req.body);
-        const novaPostagem = await PostagemService.create(data);
+        const now = new Date();
+        const postData = {
+            ...data,
+            createdAt: now,
+            updatedAt: now,
+            publicado: true 
+        };
+        const novaPostagem = await PostagemService.create(postData);
         res.status(201).json(novaPostagem);
     } catch (error: any) {
         if (error instanceof z.ZodError) {

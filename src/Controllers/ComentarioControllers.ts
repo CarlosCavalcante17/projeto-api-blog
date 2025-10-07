@@ -6,7 +6,10 @@ import { createComentariosSchema, updateComentarioSchema } from "../schema/comen
 export const createcomentario = async (req: Request, res: Response) => {
     try {
         const data = createComentariosSchema.parse(req.body);
-        const novoComentario = await ComentarioService.create(data);
+        const novoComentario = await ComentarioService.create({
+            ...data,
+            updatedAt: new Date()
+        });
         res.status(201).json(novoComentario);
     } catch (error: any) {
         if (error instanceof z.ZodError) {
