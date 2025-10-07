@@ -2,7 +2,7 @@
 import { Router } from 'express';
 import {
   getAllcomentarios,
-  getComentarioById,
+  getcomentarioById,
   createcomentario,
   updatecomentario,
   deletecomentario,
@@ -11,7 +11,7 @@ import {
 const router = Router();
 
 router.get('/', getAllcomentarios);
-router.get('/:id', getComentarioById);
+router.get('/:id', getcomentarioById);
 router.post('/', createcomentario);
 router.put('/:id', updatecomentario);
 router.delete('/:id', deletecomentario);

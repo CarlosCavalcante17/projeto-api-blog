@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { z } from "zod";
 import * as ComentarioService from '../Services/ComentarioServices';
-import { createcomentarioSchema, updateComentarioSchema } from "../schema/comentarioSchema";
+import { createComentariosSchema, updateComentarioSchema } from "../schema/comentarioSchema";
 
 export const createcomentario = async (req: Request, res: Response) => {
     try {
-        const data = createcomentarioSchema.parse(req.body);
+        const data = createComentariosSchema.parse(req.body);
         const novoComentario = await ComentarioService.create(data);
         res.status(201).json(novoComentario);
     } catch (error: any) {
