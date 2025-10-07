@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { z } from "zod";
 import * as UsuarioService from '../Services/UsuarioServices';
-import { createusuarioSchema, updateusuarioSchema } from "../schema/usuarioSchema";
+import { createUsuarioSchema, updateUsuarioSchema } from "../schema/usuarioSchema";
 
 export const createusuario = async (req: Request, res: Response) => {
     try {
-        const data = createusuarioSchema.parse(req.body);
+        const data = createUsuarioSchema.parse(req.body);
         const novoUsuario = await UsuarioService.create(data);
         res.status(201).json(novoUsuario);
     } catch (error: any) {
@@ -42,7 +42,7 @@ export const getusuarioById = async (req: Request, res: Response) => {
 export const updateusuario = async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id);
-        const data = updateusuarioSchema.parse(req.body);
+        const data = updateUsuarioSchema.parse(req.body);
         const usuarioAtualizado = await UsuarioService.update(id, data);
         res.status(200).json(usuarioAtualizado);
     } catch (error: any) {

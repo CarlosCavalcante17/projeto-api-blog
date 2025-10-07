@@ -1,18 +1,18 @@
 import { Router} from 'express';
 import {
-    getAllUsuarios,
-    getUsuarioById,
-    createUsuario,
-    updateUsuario,
-    deleteUsuario
+    getAllusuarios,
+    getusuarioById,
+    createusuario,
+    updateusuario,
+    deleteusuario,
 }   from '../Controllers/UsuarioControllers';
 
     const router = Router();
 
-    router.get('/usuarios', getAllUsuarios);
-    router.get('/usuarios/:id', getUsuarioById);
-    router.post('/usuarios', createUsuario);
-    router.put('/usuarios/:id', updateUsuario);
-    router.delete('/usuarios/:id', deleteUsuario);
+    router.get('/usuarios', getAllusuarios);
+    router.get('/usuarios/:id', getusuarioById);
+    router.post('/usuarios', createusuario);
+    router.put('/usuarios/:id', updateusuario);
+    router.delete('/usuarios/:id', deleteusuario);
 
     export default router;
