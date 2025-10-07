@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { date, z } from "zod";
+import { z } from "zod";
 import * as PostagemService from '../Services/PostServices';
-import { createPostSchema, updatePostSchema } from "../schema/postSchema";
+import { createpostSchema, updatepostSchema } from "../schema/postSchema";
 
-export const createPost = async (req: Request, res: Response) => {
+export const createpost = async (req: Request, res: Response) => {
     try {
-        const data = createPostSchema.parse(req.body);
+        const data = createpostSchema.parse(req.body);
         const now = new Date();
         const postData = {
             ...data,
@@ -26,7 +26,7 @@ export const createPost = async (req: Request, res: Response) => {
     }
 };
 
-export const getAllPosts = async (req: Request, res: Response) => {
+export const getAllposts = async (req: Request, res: Response) => {
     try {
         const postagens = await PostagemService.getAll();
         res.status(200).json(postagens);
@@ -35,7 +35,7 @@ export const getAllPosts = async (req: Request, res: Response) => {
     }
 };
 
-export const getPostById = async (req: Request, res: Response) => {
+export const getpostById = async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id);
         const postagem = await PostagemService.getById(id);
@@ -46,10 +46,10 @@ export const getPostById = async (req: Request, res: Response) => {
     }
 };
 
-export const updatePost = async (req: Request, res: Response) => {
+export const updatepost = async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id);
-        const data = updatePostSchema.parse(req.body);
+        const data = updatepostSchema.parse(req.body);
         const postagemAtualizada = await PostagemService.update(id, data);
         res.status(200).json(postagemAtualizada);
     } catch (error: any) {
@@ -63,7 +63,7 @@ export const updatePost = async (req: Request, res: Response) => {
     }
 };
 
-export const deletePost = async (req: Request, res: Response) => {
+export const deletepost = async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id);
         await PostagemService.remove(id);

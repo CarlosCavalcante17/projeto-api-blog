@@ -1,6 +1,6 @@
 import { boolean, number, z } from "zod";
 
-export const createPostSchema = z.object({
+export const createpostSchema = z.object({
   titulo: z
    .string()
    .min(3, "O titulo deve conter no mínimo 3 caracteres.")
@@ -12,8 +12,7 @@ export const createPostSchema = z.object({
 
     autorId: z
     .number().int().positive("O ID do autor deve ser um número inteiro positivo"),
-
 });
 
-export const updatePostSchema = createPostSchema.partial();
+export const updatepostSchema = createpostSchema.partial();
 

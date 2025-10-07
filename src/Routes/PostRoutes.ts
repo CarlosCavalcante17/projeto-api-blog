@@ -1,18 +1,18 @@
 import { Router } from 'express';
 import {
-  getAllPosts,
-  getPostById,
-  createPost,
-  updatePost,
-  deletePost,
+  getAllposts,
+  getpostById,
+  createpost,
+  updatepost,
+  deletepost,
 } from '../Controllers/PostControllers';
 
 const router = Router();
 
-router.get('/posts', getAllPosts);
-router.get('/posts/:id', getPostById);
-router.post('/posts', createPost);
-router.put('/posts/:id', updatePost);
-router.delete('/posts/:id', deletePost);
+router.get('/', getAllposts);
+router.get('/:id', getpostById);
+router.post('/', createpost);
+router.put('/:id', updatepost);
+router.delete('/:id', deletepost);
 
 export default router;

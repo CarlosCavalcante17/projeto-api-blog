@@ -1,7 +1,7 @@
 import {date, z} from 'zod';
 import { update } from '../Services/UsuarioServices';
 
-export const createComentariosSchema = z.object({
+export const createcommentsSchema = z.object({
     texto:z
     .string()
     .min(1, "O comentário não pode ser vazio.")
@@ -17,6 +17,6 @@ export const createComentariosSchema = z.object({
     
 })
 
-export const updateComentarioSchema = z.object({
+export const updatecommentsSchema = z.object({
   texto : z.string().min(1, "O comentário não pode estar vazio.").optional(),
 })
