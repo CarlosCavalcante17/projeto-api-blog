@@ -8,9 +8,9 @@ import ComentarioRoutes from './Routes/ComentarioRoutes'
 const app = express();
 app.use(express.json());
 setupSwagger(app);
-app.use('/Usuarios', UsuarioRoutes );
-app.use('/Post', PostRoutes);
-app.use('/Comentario', ComentarioRoutes);
+app.use('/users', UsuarioRoutes );
+app.use('/posts', PostRoutes);
+app.use('/comments', ComentarioRoutes);
 
 const PORT = process.env.PORT || 3000;
 

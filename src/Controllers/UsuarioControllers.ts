@@ -1,19 +1,26 @@
 import { Request, Response } from "express";
 import { z } from "zod";
 import * as UsuarioService from '../Services/UsuarioServices';
-import { createUsuarioSchema, updateUsuarioSchema } from "../schema/usuarioSchema";
+import { createUserSchema, updateUsuarioSchema } from "../schema/usuarioSchema";
 
-export const createusuario = async (req: Request, res: Response) => {
+export const createUser = async (req: Request, res: Response) => {
     try {
-        const data = createUsuarioSchema.parse(req.body);
-        const novoUsuario = await UsuarioService.create(data);
-        res.status(201).json(novoUsuario);
+        const data = createUserSchema.parse(req.body);
+        const usuarioData = {
+            name: data.nome,
+            email: data.email,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        };
+        const novoUser = await UsuarioService.create(usuarioData);
+        res.status(201).json(novoUser);
     } catch (error: any) {
         if (error instanceof z.ZodError) {
             return res.status(400).json({ error: 'Dados inválidos', details: error.issues });
         }
         if (error.message.includes('e-mail já está em uso')) {
-            return res.status(409).json({ error: error.message }); // 409 Conflict
+            return res.status(409).json({ error: error.message }); 
+            
         }
         res.status(500).json({ error: 'Falha ao criar usuário' });
     }

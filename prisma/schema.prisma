@@ -14,43 +14,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Usuario {
+model users {
   id Int @id @default(autoincrement())
   name String
   email String @unique
-  posts Post[]
-  comentarios Comentario[] @relation("Usuariocomentarios")
+  posts posts[]
+  comentarios comments[] @relation("Usuariocomentarios")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("usuarios")
+  @@map("users")
 }
 
-model Post {
+model posts {
   id Int  @id @default(autoincrement())
   titulo String
   conteudo String
   publicado Boolean @default(false)
-  autor Usuario @relation(fields: [autorId], references: [id])
+  autor users @relation(fields: [autorId], references: [id])
   autorId Int
-  comentarios Comentario[]
+  comentarios comments[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
 
   @@map("posts")
 }
 
-model Comentario {
+model comments {
   id Int @id @default(autoincrement())
   texto String
-  autor Usuario @relation("Usuariocomentarios", fields: [autorId], references: [id])
+  autor users @relation("Usuariocomentarios", fields: [autorId], references: [id])
   autorId Int
-  post Post @relation(fields: [postId], references: [id])
+  post posts @relation(fields: [postId], references: [id])
   postId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("comentarios")
+  @@map("comments")
 }
 
 

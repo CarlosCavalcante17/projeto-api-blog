@@ -1,7 +1,8 @@
 import {date, z} from 'zod';
+import { update } from '../Services/UsuarioServices';
 
 export const createComentariosSchema = z.object({
-    text:z
+    texto:z
     .string()
     .min(1, "O comentário não pode ser vazio.")
     .max(2000, "O comentário deve conter no máximo 2000 caracteres"),
@@ -12,9 +13,10 @@ export const createComentariosSchema = z.object({
 
     postId: z 
     .number("O Id da postagem é obrigatório.")
-    .int().positive("O ID da postagem deve ser um número positivo.")
+    .int().positive("O ID da postagem deve ser um número positivo."),
+    
 })
 
 export const updateComentarioSchema = z.object({
-  text: z.string().min(1, "O comentário não pode estar vazio.").optional(),
+  texto : z.string().min(1, "O comentário não pode estar vazio.").optional(),
 })
