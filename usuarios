@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import type { Paciente } from "../types/paciente";
-import { getPacientes, deletePaciente } from "../services/pacienteService";
+import type { Usuario } from "../types/Usuario";
+import { getUsuarios, deleteUsuario } from "../services/UsuarioService";
 import {
   Box,
   Paper,
@@ -12,8 +12,8 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
-import PacientesTable from "./PacientesTable";
-import EditarPacienteModal from "./EditarPacienteModal";
+import UsuariosTable from "./UsuariosTable";
+import EditarUsuarioModal from "./EditarUsuarioModal";
 
 type SnackbarState = {
   open: boolean;
@@ -21,29 +21,29 @@ type SnackbarState = {
   severity: "success" | "error" | "info" | "warning";
 };
 
-const Pacientes: React.FC = () => {
+const Usuarios: React.FC = () => {
   const navigate = useNavigate();
 
-  const [pacientes, setPacientes] = useState<Paciente[]>([]);
+  const [Usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [snackbar, setSnackbar] = useState<SnackbarState>({
     open: false,
     message: "",
     severity: "info",
   });
-  const [pacienteEditando, setPacienteEditando] = useState<Paciente | null>(
+  const [UsuarioEditando, setUsuarioEditando] = useState<Usuario | null>(
     null
   );
 
   useEffect(() => {
     (async () => {
       try {
-        const data = await getPacientes();
-        setPacientes(data);
+        const data = await getUsuarios();
+        setUsuarios(data);
       } catch (e) {
         setSnackbar({
           open: true,
-          message: "Erro ao buscar pacientes.",
+          message: "Erro ao buscar Usuarios.",
           severity: "error",
         });
         console.error(e);
@@ -55,17 +55,17 @@ const Pacientes: React.FC = () => {
     setDeletingId(id);
 
     try {
-      await deletePaciente(id);
-      setPacientes((prev) => prev.filter((p) => p.id !== id));
+      await deleteUsuario(id);
+      setUsuarios((prev) => prev.filter((p) => p.id !== id));
       setSnackbar({
         open: true,
-        message: "Paciente removido com sucesso.",
+        message: "Usuario removido com sucesso.",
         severity: "success",
       });
     } catch (e) {
       setSnackbar({
         open: true,
-        message: "Erro ao deletar paciente.",
+        message: "Erro ao deletar Usuario.",
         severity: "error",
       });
       console.error(e);
@@ -74,21 +74,21 @@ const Pacientes: React.FC = () => {
     }
   };
 
-  const handleOpenEditModal = (paciente: Paciente) => {
-    setPacienteEditando(paciente);
+  const handleOpenEditModal = (Usuario: Usuario) => {
+    setUsuarioEditando(Usuario);
   };
 
   const handleCloseEditModal = () => {
-    setPacienteEditando(null);
+    setUsuarioEditando(null);
   };
 
-  const handleSavePaciente = (pacienteAtualizado: Paciente) => {
-    setPacientes((prev) =>
-      prev.map((p) => (p.id === pacienteAtualizado.id ? pacienteAtualizado : p))
+  const handleSaveUsuario = (UsuarioAtualizado: Usuario) => {
+    setUsuarios((prev) =>
+      prev.map((p) => (p.id === UsuarioAtualizado.id ? UsuarioAtualizado : p))
     );
     setSnackbar({
       open: true,
-      message: "Paciente atualizado com sucesso.",
+      message: "Usuario atualizado com sucesso.",
       severity: "success",
     });
   };
@@ -125,11 +125,11 @@ const Pacientes: React.FC = () => {
         </IconButton>
 
         <Typography variant="h5" fontWeight={600} mb={3} textAlign="center">
-          Lista de Pacientes
+          Lista de Usuarios
         </Typography>
 
-        <PacientesTable
-          pacientes={pacientes}
+        <UsuariosTable
+          Usuarios={Usuarios}
           deletingId={deletingId}
           onDelete={handleDelete}
           onEdit={handleOpenEditModal}
@@ -141,7 +141,7 @@ const Pacientes: React.FC = () => {
             color="primary"
             className="uppercase font-bold"
           >
-            Novo Paciente
+            Novo Usuario
           </Button>
         </Box>
 
@@ -161,14 +161,14 @@ const Pacientes: React.FC = () => {
         </Snackbar>
       </Paper>
 
-      <EditarPacienteModal
-        open={pacienteEditando !== null}
-        paciente={pacienteEditando}
+      <EditarUsuarioModal
+        open={UsuarioEditando !== null}
+        Usuario={UsuarioEditando}
         onClose={handleCloseEditModal}
-        onSave={handleSavePaciente}
+        onSave={handleSaveUsuario}
       />
     </Box>
   );
 };
 
-export default Pacientes;
+export default Usuarios;

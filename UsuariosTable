@@ -17,7 +17,7 @@ interface PacientesTableProps {
   pacientes: Paciente[];
   deletingId: number | null;
   onDelete: (id: number) => void;
-  onEdit: (paciente: Paciente) => void; // Nova função para editar
+  onEdit: (paciente: Paciente) => void;
 }
 
 const PacientesTable: React.FC<PacientesTableProps> = ({

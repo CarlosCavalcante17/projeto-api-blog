@@ -28,7 +28,6 @@ function Login() {
     email: string
   ): { isValid: boolean; message: string } => {
     if (!email.trim()) {
-      //early return
       return {
         isValid: false,
         message: "Email é obrigatório",
@@ -45,7 +44,6 @@ function Login() {
     password: string
   ): { isValid: boolean; message: string } => {
     if (!password.trim()) {
-      //early return
       return {
         isValid: false,
         message: "Senha é obrigatória",
@@ -80,10 +78,9 @@ function Login() {
         senha: password,
       });
 
-      const dadosSecretario = response.data; //body da resposta http
+      const dadosSecretario = response.data;
       setMsgSucesso(`Bem vindo(a), ${dadosSecretario.nome}!`);
       setMsgErro("");
-      // Redireciona para Home após login bem-sucedido
       setTimeout(() => {
         navigate("/home");
       }, 1000);
