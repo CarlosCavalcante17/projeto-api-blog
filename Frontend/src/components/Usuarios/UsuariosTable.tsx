@@ -1,5 +1,5 @@
 import React from "react";
-import type { Paciente } from "../types/paciente";
+import type { User } from "../types/";
 import {
   Table,
   TableBody,
@@ -13,15 +13,15 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-interface PacientesTableProps {
-  pacientes: Paciente[];
+interface UsuariosTableProps {
+  users: User[];
   deletingId: number | null;
   onDelete: (id: number) => void;
-  onEdit: (paciente: Paciente) => void; // Nova função para editar
+  onEdit: (User: User) => void; // Nova função para editar
 }
 
-const PacientesTable: React.FC<PacientesTableProps> = ({
-  pacientes,
+const UsuariosTable: React.FC<UsuariosTableProps> = ({
+  users,
   deletingId,
   onDelete,
   onEdit,
@@ -50,33 +50,28 @@ const PacientesTable: React.FC<PacientesTableProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {pacientes.length === 0 ? (
+          {users.length === 0 ? (
             <TableRow>
               <TableCell
                 colSpan={6}
                 align="center"
                 className="py-6 text-gray-500"
               >
-                Nenhum paciente encontrado.
+                Nenhum Usuario encontrado.
               </TableCell>
             </TableRow>
           ) : (
-            pacientes.map((paciente) => (
-              <TableRow key={paciente.id} hover className="hover:bg-blue-50">
-                <TableCell align="center">{paciente.nome}</TableCell>
-                <TableCell align="center">{paciente.email}</TableCell>
-                <TableCell align="center">{paciente.telefone || "-"}</TableCell>
-                <TableCell align="center">{paciente.cpf}</TableCell>
-                <TableCell align="center">
-                  {paciente.dataNascimento?.split("T")[0] || "-"}
-                </TableCell>
+            users.map((user) => (
+              <TableRow key={user.id} hover className="hover:bg-blue-50">
+                <TableCell align="center">{user.nome}</TableCell>
+                <TableCell align="center">{user.email}</TableCell>
                 <TableCell align="center">
                   <div className="flex justify-center gap-2">
                     <Tooltip title="Editar">
                       <IconButton
                         color="primary"
                         size="small"
-                        onClick={() => onEdit(paciente)} // Clicar = abrir modal de edição
+                        onClick={() => onEdit(user)} // Clicar = abrir modal de edição
                       >
                         <EditIcon />
                       </IconButton>
@@ -85,9 +80,9 @@ const PacientesTable: React.FC<PacientesTableProps> = ({
                       <IconButton
                         color="error"
                         size="small"
-                        onClick={() => onDelete(paciente.id)}
-                        disabled={deletingId === paciente.id}
-                        aria-label={`remover-${paciente.id}`}
+                        onClick={() => onDelete(user.id)}
+                        disabled={deletingId === user.id}
+                        aria-label={`remover-${user.id}`}
                       >
                         <DeleteIcon />
                       </IconButton>
@@ -103,4 +98,4 @@ const PacientesTable: React.FC<PacientesTableProps> = ({
   );
 };
 
-export default PacientesTable;
+export default UsuariosTable;

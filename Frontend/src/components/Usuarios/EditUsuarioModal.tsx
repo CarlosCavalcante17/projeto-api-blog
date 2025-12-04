@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import type { Paciente } from "../types/paciente";
-import { updatePaciente } from "../services/pacienteService";
+import type { User } from "../types/User";
+import { EditarUser } from "../";
 import {
   Dialog,
   DialogTitle,
@@ -11,20 +11,20 @@ import {
   Box,
 } from "@mui/material";
 
-interface EditarPacienteModalProps {
+interface EditarUserModalProps {
   open: boolean;
-  paciente: Paciente | null;
+  User: User | null;
   onClose: () => void;
-  onSave: (pacienteAtualizado: Paciente) => void;
+  onSave: (UserAtualizado: User) => void;
 }
-const EditarPacienteModal: React.FC<EditarPacienteModalProps> = ({
+const EditarUserModal: React.FC<EditarUserModalProps> = ({
   open,
-  paciente,
+  User,
   onClose,
   onSave,
 }) => {
-  const [formData, setFormData] = useState<Paciente>(
-    paciente || {
+  const [formData, setFormData] = useState<User>(
+    User || {
       id: 0,
       nome: "",
       email: "",
@@ -37,13 +37,13 @@ const EditarPacienteModal: React.FC<EditarPacienteModalProps> = ({
   const [salvando, setSalvando] = useState(false);
 
   React.useEffect(() => {
-    if (paciente && open) {
+    if (User && open) {
       setFormData({
-        ...paciente,
-        dataNascimento: paciente.dataNascimento?.split("T")[0] || "",
+        ...User,
+        dataNascimento: User.dataNascimento?.split("T")[0] || "",
       });
     }
-  }, [paciente, open]);
+  }, [User, open]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -56,12 +56,12 @@ const EditarPacienteModal: React.FC<EditarPacienteModalProps> = ({
   const handleSave = async () => {
     setSalvando(true);
     try {
-      await updatePaciente(formData.id, formData);
+      await updateUser(formData.id, formData);
       onSave(formData);
       onClose();
     } catch (error) {
-      console.error("Erro ao salvar paciente:", error);
-      alert("Erro ao salvar paciente. Tente novamente.");
+      console.error("Erro ao salvar User:", error);
+      alert("Erro ao salvar User. Tente novamente.");
     } finally {
       setSalvando(false);
     }
@@ -70,7 +70,7 @@ const EditarPacienteModal: React.FC<EditarPacienteModalProps> = ({
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle sx={{ fontWeight: 600, fontSize: "1.25rem" }}>
-        Editar Paciente
+        Editar User
       </DialogTitle>
 
       <DialogContent>
@@ -141,4 +141,4 @@ const EditarPacienteModal: React.FC<EditarPacienteModalProps> = ({
   );
 };
 
-export default EditarPacienteModal;
+export default EditarUserModal;
