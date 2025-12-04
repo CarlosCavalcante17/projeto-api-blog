@@ -1,27 +1,27 @@
 import axios from "axios";
-import type { Paciente } from "../types/paciente";
+import type { Usuario } from "../types/Usuario";
 
 const API_BASE = "http://localhost:3333";
 
-export const getPacientes = async (): Promise<Paciente[]> => {
-  const res = await axios.get<Paciente[]>(`${API_BASE}/pacientes`);
+export const getUsuarios = async (): Promise<Usuario[]> => {
+  const res = await axios.get<Usuario[]>(`${API_BASE}/Usuarios`);
   return res.data;
 };
 
-export const deletePaciente = async (id: number): Promise<void> => {
-  await axios.delete(`${API_BASE}/pacientes/${id}`);
+export const deleteUsuario = async (id: number): Promise<void> => {
+  await axios.delete(`${API_BASE}/Usuarios/${id}`);
 };
 
-export const updatePaciente = async (
+export const updateUsuario = async (
   id: number,
-  dados: Paciente
-): Promise<Paciente> => {
-  const res = await axios.put<Paciente>(`${API_BASE}/pacientes/${id}`, dados);
+  dados: Usuario
+): Promise<Usuario> => {
+  const res = await axios.put<Usuario>(`${API_BASE}/Usuarios/${id}`, dados);
   return res.data;
 };
 
 export default {
-  getPacientes,
-  deletePaciente,
-  updatePaciente,
+  getUsuarios,
+  deleteUsuario,
+  updateUsuario,
 };
