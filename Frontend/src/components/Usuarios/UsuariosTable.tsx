@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import type { user } from "../../../types/Usuario";
 import {
   Table,
@@ -26,16 +27,13 @@ const UsuariosTable: React.FC<UsuariosTableProps> = ({
   onDelete,
   onEdit,
 }) => {
+  const navigate = useNavigate();
   return (
     <TableContainer className="mt-4 rounded-lg">
       <Table>
         <TableHead>
           <TableRow className="bg-gray-800">
-            {[
-              "Nome",
-              "Email",
-              "Ações",
-            ].map((header) => (
+            {["Nome", "Email", "Ações", "Perfil"].map((header) => (
               <TableCell
                 key={header}
                 align="center"
@@ -68,7 +66,7 @@ const UsuariosTable: React.FC<UsuariosTableProps> = ({
                       <IconButton
                         color="primary"
                         size="small"
-                        onClick={() => onEdit(user)} // Clicar = abrir modal de edição
+                        onClick={() => onEdit(user)}
                       >
                         <EditIcon />
                       </IconButton>
@@ -85,6 +83,13 @@ const UsuariosTable: React.FC<UsuariosTableProps> = ({
                       </IconButton>
                     </Tooltip>
                   </div>
+                </TableCell>
+                <TableCell align="center">
+                  <Tooltip title="Ver perfil">
+                    <IconButton onClick={() => navigate(`/perfil/${user.id}`)} size="small">
+                      <span role="img" aria-label="perfil">👤</span>
+                    </IconButton>
+                  </Tooltip>
                 </TableCell>
               </TableRow>
             ))
