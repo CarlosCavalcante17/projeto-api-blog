@@ -9,11 +9,13 @@ import AuthRoutes from './Routes/AuthRoutes'
 
 const app = express();
 
+const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:5173"
+
 app.use(cors({
-    origin: '*'
+    origin: CORS_ORIGIN,
+    credentials: true,
 }));
 
-// Aumenta o limite de payload para aceitar imagens
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 setupSwagger(app);
@@ -26,7 +28,7 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`O servidor está rodando no http://localhost:${PORT}`);
-    console.log(`Swagger docs disponíveis em http://localhost:${PORT}/api-docs`);
+    console.log(` CORS enabled for: ${CORS_ORIGIN}`);
 
 });
 

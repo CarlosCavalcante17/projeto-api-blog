@@ -6,6 +6,7 @@ import axios from "axios";
 import type { comments } from "../../types/Comentario";
 import { API_ENDPOINTS } from "../config/Api";
 
+
 export const getComentarios = async (): Promise<comments[]> => {
   const response = await axios.get(API_ENDPOINTS.COMENTARIOS);
   return response.data;
