@@ -1,6 +1,6 @@
 export const getApiUrl = (): string => {
     
-    return "http://localhost:3333";
+    return "http://localhost:3000";
 
 };
 

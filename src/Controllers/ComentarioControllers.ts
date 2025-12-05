@@ -1,3 +1,12 @@
+export const getcommentsByPost = async (req: Request, res: Response) => {
+    try {
+        const postId = parseInt(req.params.postId);
+        const comentarios = await ComentarioService.getAllByPost(postId);
+        res.status(200).json(comentarios);
+    } catch (error: any) {
+        res.status(400).json({ error: error.message });
+    }
+};
 import { Request, Response } from "express";
 import { z } from "zod";
 import * as ComentarioService from '../Services/ComentarioServices';

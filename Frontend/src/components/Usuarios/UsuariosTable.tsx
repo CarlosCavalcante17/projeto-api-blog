@@ -1,5 +1,5 @@
 import React from "react";
-import type { User } from "../types/";
+import type { user } from "../../../types/Usuario";
 import {
   Table,
   TableBody,
@@ -14,10 +14,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 interface UsuariosTableProps {
-  users: User[];
+  users: user[];
   deletingId: number | null;
   onDelete: (id: number) => void;
-  onEdit: (User: User) => void; // Nova função para editar
+  onEdit: (User: user) => void; // Nova função para editar
 }
 
 const UsuariosTable: React.FC<UsuariosTableProps> = ({
@@ -34,9 +34,6 @@ const UsuariosTable: React.FC<UsuariosTableProps> = ({
             {[
               "Nome",
               "Email",
-              "Telefone",
-              "CPF",
-              "Data de Nascimento",
               "Ações",
             ].map((header) => (
               <TableCell

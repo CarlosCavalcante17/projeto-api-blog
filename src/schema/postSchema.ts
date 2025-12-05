@@ -10,6 +10,10 @@ export const createpostSchema = z.object({
    .string()
    .min(10, "O conteudo deve conter no mínimo 10 caracteres"),
 
+   imagem: z
+   .string()
+   .optional(),
+
     autorId: z
     .number().int().positive("O ID do autor deve ser um número inteiro positivo"),
 });

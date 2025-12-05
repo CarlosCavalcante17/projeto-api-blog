@@ -5,33 +5,39 @@ import { createpostSchema, updatepostSchema } from "../schema/postSchema";
 
 export const createpost = async (req: Request, res: Response) => {
     try {
+        console.log("Criando post com dados:", req.body);
         const data = createpostSchema.parse(req.body);
         const now = new Date();
         const postData = {
             ...data,
             createdAt: now,
             updatedAt: now,
-            publicado: true 
+            publicado: true,
+            imagem: data.imagem ?? null
         };
         const novaPostagem = await PostagemService.create(postData);
         res.status(201).json(novaPostagem);
     } catch (error: any) {
+        console.error("Erro ao criar post:", error);
         if (error instanceof z.ZodError) {
             return res.status(400).json({ error: 'Dados inválidos', details: error.issues });
         }
         if (error.message.includes('não encontrado')) {
             return res.status(404).json({ error: error.message });
         }
-        res.status(500).json({ error: 'Falha ao criar postagem' });
+        res.status(500).json({ error: 'Falha ao criar postagem', details: error.message });
     }
 };
 
 export const getAllposts = async (req: Request, res: Response) => {
     try {
+        console.log("Buscando todos os posts...");
         const postagens = await PostagemService.getAll();
+        console.log("Posts encontrados:", postagens.length);
         res.status(200).json(postagens);
-    } catch (error) {
-        res.status(500).json({ error: 'Falha ao buscar postagens' });
+    } catch (error: any) {
+        console.error('Erro ao buscar postagens:', error);
+        res.status(500).json({ error: 'Falha ao buscar postagens', details: error.message });
     }
 };
 

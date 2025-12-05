@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import type { User } from "../types/User";
-import { EditarUser } from "../";
+import React, { useState, useEffect } from "react";
+import type { user } from "../../../types/Usuario";
+import { updateUsuario } from "../../Services/UserServices"
 import {
   Dialog,
   DialogTitle,
@@ -11,39 +11,32 @@ import {
   Box,
 } from "@mui/material";
 
-interface EditarUserModalProps {
+interface updateUsuarioModalProps {
   open: boolean;
-  User: User | null;
+  user: user | null;
   onClose: () => void;
-  onSave: (UserAtualizado: User) => void;
+  onSave: (userAtualizado: user) => void;
 }
-const EditarUserModal: React.FC<EditarUserModalProps> = ({
+const EditUsuarioModal: React.FC<updateUsuarioModalProps> = ({
   open,
-  User,
+  user,
   onClose,
   onSave,
 }) => {
-  const [formData, setFormData] = useState<User>(
-    User || {
+  const [formData, setFormData] = useState<user>(
+    user || {
       id: 0,
       nome: "",
       email: "",
-      cpf: "",
-      telefone: "",
-      dataNascimento: "",
     }
   );
 
+  useEffect(() => {
+    if (user) setFormData(user);
+  }, [user]);
+
   const [salvando, setSalvando] = useState(false);
 
-  React.useEffect(() => {
-    if (User && open) {
-      setFormData({
-        ...User,
-        dataNascimento: User.dataNascimento?.split("T")[0] || "",
-      });
-    }
-  }, [User, open]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -56,12 +49,12 @@ const EditarUserModal: React.FC<EditarUserModalProps> = ({
   const handleSave = async () => {
     setSalvando(true);
     try {
-      await updateUser(formData.id, formData);
+      await updateUsuario(formData.id, formData);
       onSave(formData);
       onClose();
     } catch (error) {
-      console.error("Erro ao salvar User:", error);
-      alert("Erro ao salvar User. Tente novamente.");
+      console.error("Erro ao salvar usuario:", error);
+      alert("Erro ao salvar usuario. Tente novamente.");
     } finally {
       setSalvando(false);
     }
@@ -93,33 +86,6 @@ const EditarUserModal: React.FC<EditarUserModalProps> = ({
             onChange={handleInputChange}
             placeholder="Digite o email"
           />
-
-          <TextField
-            fullWidth
-            label="CPF"
-            name="cpf"
-            value={formData.cpf}
-            onChange={handleInputChange}
-            placeholder="Digite o CPF"
-          />
-
-          <TextField
-            fullWidth
-            label="Telefone"
-            name="telefone"
-            value={formData.telefone || ""}
-            onChange={handleInputChange}
-            placeholder="Digite o telefone"
-          />
-
-          <TextField
-            fullWidth
-            label="Data de Nascimento"
-            name="dataNascimento"
-            value={formData.dataNascimento}
-            onChange={handleInputChange}
-            placeholder="YYYY-MM-DD"
-          />
         </Box>
       </DialogContent>
 
@@ -141,4 +107,4 @@ const EditarUserModal: React.FC<EditarUserModalProps> = ({
   );
 };
 
-export default EditarUserModal;
+export default EditUsuarioModal;
