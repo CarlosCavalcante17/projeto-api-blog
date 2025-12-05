@@ -14,6 +14,10 @@ export const createpostSchema = z.object({
    .string()
    .optional(),
 
+   publicado: z
+   .boolean()
+   .optional(),
+
     autorId: z
     .number().int().positive("O ID do autor deve ser um número inteiro positivo"),
 });

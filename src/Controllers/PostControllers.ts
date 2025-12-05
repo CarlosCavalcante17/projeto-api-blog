@@ -7,13 +7,12 @@ export const createpost = async (req: Request, res: Response) => {
     try {
         console.log("Criando post com dados:", req.body);
         const data = createpostSchema.parse(req.body);
-        const now = new Date();
         const postData = {
-            ...data,
-            createdAt: now,
-            updatedAt: now,
-            publicado: true,
-            imagem: data.imagem ?? null
+            titulo: data.titulo,
+            conteudo: data.conteudo,
+            imagem: data.imagem ?? null,
+            autorId: data.autorId,
+            publicado: data.publicado ?? false,
         };
         const novaPostagem = await PostagemService.create(postData);
         res.status(201).json(novaPostagem);
