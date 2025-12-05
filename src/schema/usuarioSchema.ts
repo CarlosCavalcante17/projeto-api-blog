@@ -10,6 +10,11 @@ export const createUserSchema = z.object({
     .string()
     .email({ message: "Email deve ter um formato válido" })
     .max(255, "O Email deve conter no máximo 255 caracteres "),
+    
+    senha: z
+    .string()
+    .min(6, "A senha deve conter pelo menos 6 caracteres")
+    .max(255, "A senha deve conter no máximo 255 caracteres"),
 });
 
 export const updateUsersSchema = createUserSchema.partial();

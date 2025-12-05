@@ -36,7 +36,7 @@ const Home: React.FC = () => {
               fullWidth
               sx={{ mb: 2 }}
               type="button"
-              onClick={() => navigate("/pacientes")}
+              onClick={() => navigate("/Usuarios")}
             >
               Usuários
             </Button>
@@ -45,6 +45,7 @@ const Home: React.FC = () => {
               color="secondary"
               fullWidth
               type="button"
+              onClick={() => navigate("/Posts")}
             >
               Postagens
             </Button>

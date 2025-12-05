@@ -14,17 +14,22 @@ export const create = async (data: postsCreateData): Promise<posts> => {
 };
 
 export const getAll = async () => {
-    return prisma.posts.findMany({
-        orderBy: { id: 'desc' }, 
-        include: {
-            autor: {
-                select: {
-                    name: true,
-                    email: true
+    try {
+        return await prisma.posts.findMany({
+            orderBy: { id: 'desc' }, 
+            include: {
+                autor: {
+                    select: {
+                        nome: true,
+                        email: true
+                    }
                 }
             }
-        }
-    });
+        });
+    } catch (error: any) {
+        console.error('Erro ao buscar posts:', error);
+        throw new Error('Erro ao buscar posts: ' + error.message);
+    }
 };
 
 export const getById = async (id: number) => {

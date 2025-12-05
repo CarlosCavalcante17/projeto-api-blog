@@ -1,6 +1,7 @@
 export interface comments {
-    id_autor : number
-    id_post : number
-    texto : string
-
+    id: number;
+    autorId: number;
+    postId: number;
+    texto: string;
+    autor?: { nome: string; email?: string };
 }

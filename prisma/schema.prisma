@@ -16,8 +16,9 @@ datasource db {
 
 model users {
   id Int @id @default(autoincrement())
-  name String
+  nome String
   email String @unique
+  senha String
   posts posts[]
   comentarios comments[] @relation("Usuariocomentarios")
   createdAt DateTime @default(now())
@@ -30,6 +31,7 @@ model posts {
   id Int  @id @default(autoincrement())
   titulo String
   conteudo String
+  imagem String?
   publicado Boolean @default(false)
   autor users @relation(fields: [autorId], references: [id])
   autorId Int

@@ -7,8 +7,9 @@ export const createUser = async (req: Request, res: Response) => {
     try {
         const data = createUserSchema.parse(req.body);
         const usersData = {
-            name: data.nome,
+            nome: data.nome,
             email: data.email,
+            senha: data.senha,
             createdAt: new Date(),
             updatedAt: new Date()
         };
@@ -20,9 +21,9 @@ export const createUser = async (req: Request, res: Response) => {
         }
         if (error.message.includes('e-mail já está em uso')) {
             return res.status(409).json({ error: error.message }); 
-            
         }
-        res.status(500).json({ error: 'Falha ao criar usuário' });
+        console.error('Erro ao criar usuário:', error);
+        res.status(500).json({ error: 'Falha ao criar usuário', details: error.message });
     }
 };
 
@@ -30,19 +31,24 @@ export const getAllusers = async (req: Request, res: Response) => {
     try {
         const users = await UsuarioService.getAll();
         res.status(200).json(users);
-    } catch (error) {
-        res.status(500).json({ error: 'Falha ao buscar usuários' });
+    } catch (error: any) {
+        console.error('Erro ao buscar usuários:', error);
+        res.status(500).json({ error: 'Falha ao buscar usuários', details: error.message });
     }
 };
 
 export const getusersById = async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id);
+        if (isNaN(id)) {
+            return res.status(400).json({ error: 'ID inválido' });
+        }
         const user = await UsuarioService.getById(id);
         if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
         res.status(200).json(user);
-    } catch (error) {
-        res.status(500).json({ error: 'Falha ao buscar usuário' });
+    } catch (error: any) {
+        console.error('Erro ao buscar usuário:', error);
+        res.status(500).json({ error: 'Falha ao buscar usuário', details: error.message });
     }
 };
 
@@ -59,7 +65,8 @@ export const updateusers = async (req: Request, res: Response) => {
         if (error.message.includes('não encontrado')) {
             return res.status(404).json({ error: error.message });
         }
-        res.status(500).json({ error: 'Falha ao atualizar usuário' });
+        console.error('Erro ao atualizar usuário:', error);
+        res.status(500).json({ error: 'Falha ao atualizar usuário', details: error.message });
     }
 };
 
@@ -72,6 +79,7 @@ export const deleteUser = async (req: Request, res: Response) => {
         if (error.message.includes('não encontrado')) {
             return res.status(404).json({ error: error.message });
         }
-        res.status(500).json({ error: 'Falha ao deletar usuário' });
+        console.error('Erro ao deletar usuário:', error);
+        res.status(500).json({ error: 'Falha ao deletar usuário', details: error.message });
     }
 };

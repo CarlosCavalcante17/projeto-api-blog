@@ -21,9 +21,19 @@ export const create = async (data: commentsCreateData): Promise<comments> => {
 export const getAll = async () => {
     return prisma.comments.findMany({
         include: {
-            autor: { select: { name: true } },
+            autor: { select: { nome: true, email: true } },
             post: { select: { titulo: true } }
         }
+    });
+};
+
+export const getAllByPost = async (postId: number) => {
+    return prisma.comments.findMany({
+        where: { postId },
+        orderBy: { createdAt: "desc" },
+        include: {
+            autor: { select: { nome: true, email: true } },
+        },
     });
 };
 

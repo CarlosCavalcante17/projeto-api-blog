@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { Post } from "../types/post";
+import type { Post } from "../../types/Post";
 import { API_ENDPOINTS } from "../config/Api";
 
 export const getPosts = async (): Promise<Post[]> => {
