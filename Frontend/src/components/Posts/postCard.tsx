@@ -3,7 +3,7 @@ import type { Post } from "../../../types/Post";
 import { Card, CardContent, CardMedia, Typography, CardActions, Button } from "@mui/material";
 
 interface Props {
-  post: Post;
+  post: Post & { autor?: { nome: string } };
   onEdit?: (post: Post) => void;
   onDelete?: (id: number) => void;
 }
@@ -22,6 +22,9 @@ const PostCard: React.FC<Props> = ({ post, onEdit, onDelete }) => {
       )}
       <CardContent>
         <Typography variant="h6">{post.titulo}</Typography>
+        <Typography variant="subtitle2" color="primary" sx={{ mt: 0.5, mb: 1 }}>
+          {post.autor?.nome ? `por ${post.autor.nome}` : ""}
+        </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
           {post.conteudo}
         </Typography>

@@ -2,8 +2,14 @@ import axios from "axios";
 import type {user} from "../../types/Usuario";
 import { API_ENDPOINTS } from "../config/Api";
 
+
 export const getUsuarios = async (): Promise<user[]> => {
   const response = await axios.get(API_ENDPOINTS.USUARIOS);
+  return response.data;
+};
+
+export const getUsuarioById = async (id: number): Promise<user> => {
+  const response = await axios.get(`${API_ENDPOINTS.USUARIOS}/${id}`);
   return response.data;
 };
 

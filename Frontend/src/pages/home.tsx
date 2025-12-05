@@ -1,5 +1,7 @@
+
 import { Box, Button, Paper, Typography, Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+
 
 const AVATAR_SIZE = 72;
 
@@ -17,12 +19,13 @@ const Home: React.FC = () => {
           <Box textAlign="center" mb={2}>
             <Box display="flex" justifyContent="center" mb={1}>
               <Avatar
-                src="https://cdn-icons-png.flaticon.com/512/7858/7858230.png"
-                alt="Minni Blog"
+                src="/Logo_blog.png"
+                alt="Logo blog"
                 sx={{
                   width: AVATAR_SIZE,
                   height: AVATAR_SIZE,
                   bgcolor: "transparent",
+                  boxShadow: 2,
                 }}
                 slotProps={{ img: { loading: "lazy" } }}
               />

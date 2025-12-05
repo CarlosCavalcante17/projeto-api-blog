@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import PerfilUsuarioPage from "./pages/PerfilUsuarioPage";
 import Home from "./pages/home";
 import ThemeToggleFloating from "./components/ThemeToggleFloating";
 import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
@@ -23,6 +24,7 @@ function app() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/perfil/:id" element={<PerfilUsuarioPage />} />
           <Route path="/home" element={<Home />} />
           <Route path="/usuarios" element={<UsuariosPage />} />
           <Route path="/Posts" element={<PostsPage />} />
